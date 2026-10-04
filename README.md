@@ -1,2 +1,5 @@
-# StyleDemo2026
-Demo of my programming style
+### Demo of my Coding Style
+
+Pavel Jelínek, 2026
+
+(Hanoi)[Demo/src.Hanoi.kt]
