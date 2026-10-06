@@ -1,4 +1,7 @@
-package io.github.pavel0jelinek.demo
+package io.github.pavel0jelinek.demo.hanoi
+
+import io.github.pavel0jelinek.demo.hanoi.Move
+import kotlin.collections.plus
 
 /**
  * Towers of Hanoi is a typical problem for recursion:
@@ -18,24 +21,23 @@ package io.github.pavel0jelinek.demo
  **
  * ### A short recursive solution on ca. 5 lines of code:
  *
- * Prints how to move the [nDisks] smallest disks from rod [from] onto rod [onto], using rod [helper].
+ * Prints how to move the [nDisks] smallest disks from rod [from] onto rod [onto], using rod [helper] as a helper.
  *
- * Correct in any phase of the solution,
- * assuming that [onto] and [helper] contain either no disks or only larger disks than rod [from].
+ * Correct in any phase of the solution (for N rods), assuming that nDisks<=N and all [nDisks] smallest disks are not on rod [from].
  */
 
-fun printDiskMoves(nDisks: Int, from: Char = 'A', onto: Char = 'B', helper: Char = 'C') {
+fun printMoves(nDisks: Int, from: Char = 'A', onto: Char = 'B', helper: Char = 'C') {
     if (nDisks <= 0) return
-    printDiskMoves(nDisks - 1, from, helper, onto)
-    println("$from->$onto")
-    printDiskMoves(nDisks - 1, helper, onto, from)
+    printMoves(nDisks - 1, from, helper, onto)
+    print("$from->$onto;")
+    printMoves(nDisks - 1, helper, onto, from)
 }
 
 /**
  * However, coupling the output with the algorithm is a bad design:
  * What if we want, e.g., to write the moves to a file, or to animate them?
  *
- * Therefore, let's have:
+ * We should return a data structure, so here it is:
  */
 enum class Rod { A, B, C }
 
@@ -46,20 +48,42 @@ data class Move(val from: Rod, val onto: Rod) {
     override fun toString() = "$from->$onto"
 }
 
-/** Returns the solution of Towers of Hanoi for [nDisks] disks. */
-fun hanoi(nDisks: Int): List<Move> =
-    getMoves(nDisks, Rod.A, Rod.B, Rod.C)
-
 /**
  * Returns moves needed to move [nDisks] top disks from [from] onto [onto],
  * under the assumption that all [nDisks] smallest disks (i.e., all disks with numbers in 0..<[nDisks])
  * are now placed on [from].
+ *
+ * I think it is elegantly functional-style, without variables etc., but it comes as a cost:
+ * it often copies a [List], which is slow. Even [java.util.LinkedList] will probably not help.
+ * * We would need a persistent collection or code our own linked list.
+ * * Or append a mutable collection, see [getMovesThroughAppending].
  */
-private fun getMoves(nDisks: Int, from: Rod, onto: Rod, helper: Rod): List<Move> =
+fun getMovesFunctionally(nDisks: Int, from: Rod = Rod.A, onto: Rod = Rod.B, helper: Rod = Rod.C): List<Move> =
     if (nDisks <= 0) emptyList()
-    else getMoves(nDisks - 1, from, helper, onto) +
+    else getMovesFunctionally(nDisks - 1, from, helper, onto) +
             Move(from, onto) +
-            getMoves(nDisks - 1, helper, onto, from)
+            getMovesFunctionally(nDisks - 1, helper, onto, from)
+
+/**
+ * Returns a solution of Hanoi, constructed by appending to a mutable collection.
+ *
+ * Almost identical to [getMovesFunctionally], but faster.
+ */
+fun getMovesThroughAppending(nDisks: Int): List<Move> =
+    mutableListOf<Move>().also { list ->
+        appendMoves(nDisks, Rod.A, Rod.B, Rod.C, list)
+    }
+
+/**
+ * Appends into [target] the sequence of moves needed to move [nDisks] from [from] onto [onto].
+ */
+private fun appendMoves(nDisks: Int, from: Rod, onto: Rod, helper: Rod, target: MutableList<Move>) {
+    if (nDisks <= 0) return
+    appendMoves(nDisks - 1, from, helper, onto, target)
+    target.add(Move(from, onto))
+    appendMoves(nDisks - 1, helper, onto, from, target)
+}
+
 
 /**
  * And now a solution without recursion. We need some terminology:
@@ -78,7 +102,7 @@ private class Transfer(
 /**
  * Returns the list of moves needed to transfer [nDisks] disks from rod A onto rod B.
  */
-fun hanoiWithoutRecursion(nDisks: Int): List<Move> {
+fun getMovesWithoutRecursion(nDisks: Int): List<Move> {
     val moves = mutableListOf<Move>()
     // Contains all transfers currently in progress (started but unfinished).
     // `transfers[j]` represents the transfer of disk `nDisks-1-j`
@@ -122,9 +146,11 @@ fun hanoiWithoutRecursion(nDisks: Int): List<Move> {
  */
 fun main() {
     println("Five-line version")
-    printDiskMoves(3)
-    println("\nVersion 2:")
-    println(hanoi(3))
+    printMoves(3)
+    println("\nFunctional version:")
+    println(getMovesFunctionally(3))
+    println("\nAppending version:")
+    println(getMovesThroughAppending(3))
     println("\nVersion without recursion:")
-    println(hanoiWithoutRecursion(3))
+    println(getMovesWithoutRecursion(3))
 }
