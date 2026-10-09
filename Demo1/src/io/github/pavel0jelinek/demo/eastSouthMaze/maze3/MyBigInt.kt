@@ -1,5 +1,7 @@
 package io.github.pavel0jelinek.demo.eastSouthMaze.maze3
 
+import java.math.BigInteger
+
 
 /**
  * TODO_CO
@@ -13,6 +15,7 @@ value class Digit(val value: Byte) {
     override fun toString() = "$value"
 
     fun toInt() = value.toInt()
+//    fun toBigInteger(): BigInteger = BigInteger.valueOf(value.toLong())
 
     init {
         require(value in 0..9)
@@ -21,6 +24,15 @@ value class Digit(val value: Byte) {
 
 fun Int.toDigitAndCarry(): Pair<Digit, Carry> = Digit(this % 10) to this / 10
 
+/**
+ * My implementation of a class containing a non-negative integer number of any magnitude.
+ *
+ * For reasons, see ...
+ *
+ * Using binary representation would be more memory-efficient and probably more flexible
+ * if many computation methods are expected to be added. Using a decimal representation
+ * makes conversion to string easier, so I chose it :-)
+ */
 data class MyBigInt(val digits: List<Digit>) {
     val nDigits = digits.size
     operator fun get(index: Int) = digits.getOrNull(index) ?: Digit(0)
@@ -40,8 +52,12 @@ data class MyBigInt(val digits: List<Digit>) {
         while (result.isNotEmpty() && result.last()==Digit(0)) result.removeLast()
         return MyBigInt(result)
     }
+
+    fun toBigInteger() = digits.reversed().fold(BigInteger.ZERO) { acc, digit -> acc * bigInteger(10) +bigInteger(digit.value) }
     companion object {
         val ZERO = MyBigInt(emptyList())
         var ONE = MyBigInt(listOf(Digit(1)))
     }
 }
+
+fun bigInteger(number:Number) = BigInteger.valueOf(number.toLong())

@@ -80,6 +80,6 @@ else {
     else ((mid + 1)..endInclusive).binaryFindLowestWhich(predicate)
 }
 
-fun Maze.toObstacleRows(): List<ObstacleRow> = obstacles.map {
+fun Maze.toObstacleRows(sparse:Boolean = false): List<ObstacleRow> = obstacles.map {
     CompressedObstacleRow(it)
 }
