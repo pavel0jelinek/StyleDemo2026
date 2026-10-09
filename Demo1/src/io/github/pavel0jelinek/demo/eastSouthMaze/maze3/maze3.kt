@@ -4,7 +4,8 @@ package io.github.pavel0jelinek.demo.eastSouthMaze.maze3
  * The competition where I encountered this problem was held in 1995/96, we programmed in Pascal or C.
  * There were no such things like BigInteger or MutableMap, if we did not implement them ourselves.
  *
- *  I will use none of my helpers except [MyBigInt], and I will use interface [ObstacleRow] to
+ *  I will use none of my helpers except [MyBigInt]. And I will use a simple interface [ObstacleRow]
+ *  (able to return whether a tile contains an obstacle) to
  *  - separate the data representation of the maze from the problem solution
  *  - and to allow for memory-efficient data representations.
  */
@@ -13,7 +14,7 @@ fun maze3(obstacles: List<ObstacleRow>): MyBigInt {
     require(sizeY > 0)
     val sizeX = obstacles.map { it.sizeX }.distinct().singleOrNull()
         ?: throw IllegalArgumentException("All rows must have the same length")
-    require(sizeX > 0)
+    require(sizeX > 0 )
 
     // For each tile, we compute the number of legat paths to that tile.
     // To save memory, we can drop old, no longer needed rows of path counts.

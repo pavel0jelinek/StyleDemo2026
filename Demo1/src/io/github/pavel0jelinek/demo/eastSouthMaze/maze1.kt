@@ -1,7 +1,5 @@
 package io.github.pavel0jelinek.demo.eastSouthMaze
 
-import java.math.BigInteger
-
 /**
  * In a rectangular maze (where each tile is a clear tile or obstacle), compute the number of paths from the north-west
  * corner to the south-east one moving only east and south and avoiding the obstacles.
@@ -15,11 +13,11 @@ import java.math.BigInteger
  * ## Version 1
  * ################################
  *
- * A trivial solution on 6 lines - very slow (time O(2^minOf(M,N)) where MxN are the dimensions of the maze.
+ * A trivial solution on 6 lines - very slow (time O(2^minOf(M-1,N-1)) where MxN are the dimensions of the maze.
  *
  * Returns the number of legal paths from the north-west corner to coordinates [x], [y]. The coordinates are zero-based.
  */
-fun eastSouthMaze1(obstacles: Array<Array<Boolean>>, x: Int = obstacles.first().size, y: Int = obstacles.size): Long =
+fun maze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastIndex, y: Int = obstacles.lastIndex): Long =
     when {
         // Outside the maze
         x < 0 || y < 0 -> 0
@@ -28,7 +26,7 @@ fun eastSouthMaze1(obstacles: Array<Array<Boolean>>, x: Int = obstacles.first().
         // Starting point
         x == 0 && y == 0 -> 1
         // We can arrive from the west or from the north
-        else -> eastSouthMaze1(obstacles, x - 1, y) + eastSouthMaze1(obstacles, x, y - 1)
+        else -> maze1(obstacles, x - 1, y) + maze1(obstacles, x, y - 1)
     }
 
 //
@@ -41,7 +39,7 @@ fun eastSouthMaze1(obstacles: Array<Array<Boolean>>, x: Int = obstacles.first().
 //    if (x < 0 || y < 0) HugeInt.Zero
 //    else this[y][x] ?: error("Null encountered at position $x-$y")
 //
-//fun eastSouthMazeFast(obstacles: Array<Array<Boolean>>): HugeInt {
+//fun eastSouthMazeFast(obstacles: List<List<Boolean>>): HugeInt {
 //    var paths: Array<Array<HugeInt?>> = obstacles.map { mazeRow ->
 //        mazeRow.map { mazeCell ->
 //            // Obstacle -> a definite 0, non-obstacle -> we don't know yet

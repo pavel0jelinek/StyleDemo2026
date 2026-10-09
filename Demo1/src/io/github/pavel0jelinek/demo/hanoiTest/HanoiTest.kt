@@ -1,5 +1,11 @@
-package io.github.pavel0jelinek.demo.hanoi
+package io.github.pavel0jelinek.demo.hanoiTest
 
+import io.github.pavel0jelinek.demo.hanoi.Move
+import io.github.pavel0jelinek.demo.hanoi.Rod
+import io.github.pavel0jelinek.demo.hanoi.getMovesFunctionally
+import io.github.pavel0jelinek.demo.hanoi.getMovesThroughAppending
+import io.github.pavel0jelinek.demo.hanoi.getMovesWithoutRecursion
+import io.github.pavel0jelinek.demo.hanoi.printMoves
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.io.ByteArrayOutputStream

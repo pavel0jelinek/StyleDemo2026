@@ -1,5 +1,7 @@
 package io.github.pavel0jelinek.demo.eastSouthMaze.maze3
 
+import io.github.pavel0jelinek.demo.eastSouthMaze.Maze
+
 /**
  * Describes a row in a maze of free tiles and obstacles.
  *
@@ -22,7 +24,7 @@ interface ObstacleRow {
  */
 class CompressedObstacleRow(override val sizeX: Int, private val compressed: Array<ULong>) : ObstacleRow {
 
-    private constructor(obstacles: Iterable<Boolean>) : this(
+    constructor(obstacles: Iterable<Boolean>) : this(
         obstacles.count(), compress(obstacles)
     )
 
@@ -78,9 +80,6 @@ else {
     else ((mid + 1)..endInclusive).binaryFindLowestWhich(predicate)
 }
 
-
-fun binaryFindTest() {
-//    for (size in 0..9)
-//        for (seed in 0L..size.toLong())
-//    fai
+fun Maze.toObstacleRows(): List<ObstacleRow> = obstacles.map {
+    CompressedObstacleRow(it)
 }

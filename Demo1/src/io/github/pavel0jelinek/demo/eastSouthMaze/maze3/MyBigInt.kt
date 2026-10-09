@@ -37,7 +37,7 @@ data class MyBigInt(val digits: List<Digit>) {
             index++
         }
         // Normalize 042 to 42.
-        while (result.last()==Digit(0)) result.removeLast()
+        while (result.isNotEmpty() && result.last()==Digit(0)) result.removeLast()
         return MyBigInt(result)
     }
     companion object {
