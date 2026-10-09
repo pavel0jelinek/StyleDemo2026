@@ -1,6 +1,5 @@
 package io.github.pavel0jelinek.demo.eastSouthMaze
 
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.CompressedObstacleRow
 import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.maze3
 import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.toObstacleRows
 
@@ -18,7 +17,7 @@ fun mazeOf(printedMaze: String): Maze {
     return Maze(obstacles)
 }
 
-fun buildMaze(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= Maze(
+fun mazeDefinedBy(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= Maze(
     List(sizeY){ y->
         List(sizeX) { x ->
             isObstacle(Position(x, y))
@@ -48,10 +47,10 @@ fun main() {
         ...
     """.trimIndent()))
 
-    solveAndPrint("Impenetrable wall",buildMaze(10, 10){
+    solveAndPrint("Impenetrable wall",mazeDefinedBy(10, 10){
         x==5
     })
-    solveAndPrint("Wall with one passage", buildMaze(10, 10){
+    solveAndPrint("Wall with one passage", mazeDefinedBy(10, 10){
         x==5 && y!=5
     })
 

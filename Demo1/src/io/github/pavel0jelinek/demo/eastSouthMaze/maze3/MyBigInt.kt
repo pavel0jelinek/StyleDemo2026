@@ -61,3 +61,14 @@ data class MyBigInt(val digits: List<Digit>) {
 }
 
 fun bigInteger(number:Number) = BigInteger.valueOf(number.toLong())
+// Kam??
+fun productOf(numbers: Iterable<Int>) : BigInteger = numbers.fold(BigInteger.ONE){acc, i -> acc* bigInteger(i)}
+
+fun factorial(base:Int): BigInteger = productOf(2..base) //??needed??
+
+// Comm
+fun numberOfSubsets(sizeOfSet:Int, sizeOfSubSet:Int): BigInteger= when {
+    sizeOfSubSet>sizeOfSet -> BigInteger.ZERO
+ else ->   productOf((sizeOfSet - sizeOfSubSet + 1)..sizeOfSet) / productOf(1..sizeOfSubSet)
+}
+
