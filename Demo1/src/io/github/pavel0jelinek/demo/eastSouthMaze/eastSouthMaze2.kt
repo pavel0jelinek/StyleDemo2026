@@ -75,3 +75,8 @@ fun eastSouthMaze2b(
                 eastSouthMaze2b(maze, position.westNeighbor, cache)
     }
 }
+
+
+fun main() {
+    
+}

@@ -12,21 +12,23 @@ interface ObstacleRow {
      * it well-defined and independent of the problem where we use it.
      */
     fun isObstacle(x: Int): Boolean?
+
+    val sizeX: Int
 }
 
 /**
  * An implementation efficient when there are many obstacles - represents a row as a sequence of bits,
  * compressed as Array<ULong>.
  */
-class CompressedObstacleRow(private val compressed: Array<ULong>, private val length: Int) : ObstacleRow {
+class CompressedObstacleRow(override val sizeX: Int, private val compressed: Array<ULong>) : ObstacleRow {
 
     private constructor(obstacles: Iterable<Boolean>) : this(
-        compress(obstacles), obstacles.count()
+        obstacles.count(), compress(obstacles)
     )
 
     override fun isObstacle(x: Int): Boolean? =
         // Implemented by Mistral LLM.
-        if (x in 0..<length) (compressed[x ushr 6] and (1UL shl (x and 63))) != 0UL
+        if (x in 0..<sizeX) (compressed[x ushr 6] and (1UL shl (x and 63))) != 0UL
         else null
 
     companion object {
@@ -44,28 +46,41 @@ class CompressedObstacleRow(private val compressed: Array<ULong>, private val le
 /**
  * An implementation memory-efficient when the obstacles are sparse.
  */
-//class SparseObstacleRow private constructor(
-//    private val length: Int,
-//    private val obstacles: IntArray,
-//) : ObstacleRow {
-//
-//    private constructor(obstacles: Iterable<Boolean>) : this(
-//        obstacles.count(),
-//        obstacles.withIndex().filter { it.value }.map { it.index }.toIntArray().also { it.sort() }
-//    )
-//
-//    override fun isObstacle(x: Int): Boolean? =
-//        if (x < 0 || x >= length) true
-//        else binarySearch(x) >= 0
-//
-//    private fun binarySearch(x: Int): Int =
-//        obstacles.binarySearch(x)
-//
-//    companion object {
-//        /** Efektivní tovární metoda pro řídké řádky. */
-//        fun sparse(length: Int, obstacleIndices: IntArray): ObstacleRowImpl {
-//            require(obstacleIndices.all { it in 0 until length })
-//            return ObstacleRowImpl(length, obstacleIndices.apply { sort() }.distinct())
-//        }
-//    }
-//}
+class SparseObstacleRow private constructor(
+    override val sizeX: Int,
+    // Sorted x-indices of all obstacles in this row of maze.
+    private val obstacles: List<Int>
+) : ObstacleRow {
+    private constructor(obstacles: Iterable<Boolean>) : this(
+        obstacles.count(), obstacles.withIndex().filter { it.value }.map { it.index }.sorted()
+    )
+
+    init {
+        obstacles.toList().zipWithNext { a, b -> require(a < b) }
+        if (obstacles.isNotEmpty()) {
+            require(obstacles.first() >= 0)
+            require(obstacles.last() < sizeX)
+        }
+
+    }
+
+    override fun isObstacle(x: Int): Boolean? =
+        if (x in 0..<sizeX) (0..<sizeX).binaryFindLowestWhich { it >= x } != null
+        else null
+}
+
+
+fun ClosedRange<Int>.binaryFindLowestWhich(predicate: (Int) -> Boolean): Int? = if (isEmpty()) null
+else {
+    val mid = (start + endInclusive) / 2
+    if (predicate(mid))
+        (start..<mid).binaryFindLowestWhich(predicate) ?: mid
+    else ((mid + 1)..endInclusive).binaryFindLowestWhich(predicate)
+}
+
+
+fun binaryFindTest() {
+//    for (size in 0..9)
+//        for (seed in 0L..size.toLong())
+//    fai
+}
