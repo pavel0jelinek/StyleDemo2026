@@ -42,7 +42,7 @@ class HanoiTest {
 
     @Test
     fun emptyListReturnedForNonPositiveInput() {
-        // Assert that no crash occurs.
+        // Must not crash, should return an empty collection of moves.
         assertAllAlgorithmsReturnSame(-1000, emptyList())
         assertAllAlgorithmsReturnSame(-1, emptyList())
         assertAllAlgorithmsReturnSame(0, emptyList())
@@ -58,7 +58,7 @@ private fun assertAllAlgorithmsReturnSame(nDisks: Int, expectedMoves: List<Move>
     // Put all versions into a map, associated by readable names.
     val versions = buildMap {
         expectedMoves?.also { put("Expected", it) }
-        put("Actual (printing version)", getPrintedContent { printMoves(nDisks) }.parsedToMoves())
+        put("Actual (printing version)", redirectedOutputOf { printMoves(nDisks) }.parsedToMoves())
         put("Actual (functional style)", getMovesFunctionally(nDisks))
         put("Actual (through appending)", getMovesThroughAppending(nDisks))
         put("Actual (without recursion)", getMovesWithoutRecursion(nDisks))
@@ -82,7 +82,7 @@ private fun assertAllAlgorithmsReturn(nDisks: Int, vararg moves: Move) {
 /**
  * Returns all that [block] prints to [System.out], using temporary redirection by [System.setOut].
  */
-private fun getPrintedContent(block: () -> Unit): String {
+private fun redirectedOutputOf(block: () -> Unit): String {
     val original = System.out
     try {
         val buffer = ByteArrayOutputStream()
