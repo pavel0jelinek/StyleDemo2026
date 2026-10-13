@@ -1,16 +1,16 @@
-package io.github.pavel0jelinek.demo.eastSouthMaze
+package io.github.pavel0jelinek.demo.oneWayMaze
 
 import java.math.BigInteger
 
 /**
- * Function [maze1] was very slow. In a modern programming language,
+ * Function [oneWayMaze1] was very slow. In a modern programming language,
  * it can be sped up very simply by wrapping the computation inside a cache.
  *
  * This decreases the time complexity on an MxN maze from `O(2^min(M,N))` to `O(M*N)`.
  *
  * Also, let's use [BigInteger] because the range of [Long] can easily be exceeded.
  */
-fun maze2a(
+fun oneWayMaze2a(
     obstacles: List<List<Boolean>>,
     x: Int = obstacles[0].lastIndex,
     y: Int = obstacles.lastIndex,
@@ -22,10 +22,9 @@ fun maze2a(
     x == 0 && y == 0 -> BigInteger.ONE
     else -> cache.getOrPut(x to y) {
         // We can arrive from the west or from the north
-        maze2a(obstacles, x - 1, y, cache) +
-                maze2a(obstacles, x, y - 1, cache)
+        oneWayMaze2a(obstacles, x - 1, y, cache) +
+                oneWayMaze2a(obstacles, x, y - 1, cache)
     }
-
 }
 
 /**
@@ -41,7 +40,7 @@ data class Position(val x: Int, val y: Int) {
 /**
  * Represents a rectangular maze with free tiles and obstacles.
  */
-class Maze(
+class ObstacleMaze( // ?? RETHINK NAME
     val obstacles: List<List<Boolean>>,
 ) {
     val sizeY = obstacles.size
@@ -68,8 +67,8 @@ class Maze(
  * Again, with default parameters, it solves the problem;
  * with other parameters, it can return the number of paths to any position in the maze.
  */
-fun maze2b(
-    maze: Maze,
+fun oneWayMaze2b(
+    maze: ObstacleMaze,
     position: Position = maze.southEastCorner,
     cache: MutableMap<Position, BigInteger> = mutableMapOf()
 ): BigInteger = when {
@@ -79,8 +78,8 @@ fun maze2b(
     position == maze.northWestCorner -> BigInteger.ONE
     // We can arrive from north or from south
     else -> cache.getOrPut(position) {
-        maze2b(maze, position.northNeighbor, cache) +
-                maze2b(maze, position.westNeighbor, cache)
+        oneWayMaze2b(maze, position.northNeighbor, cache) +
+                oneWayMaze2b(maze, position.westNeighbor, cache)
     }
 }
 

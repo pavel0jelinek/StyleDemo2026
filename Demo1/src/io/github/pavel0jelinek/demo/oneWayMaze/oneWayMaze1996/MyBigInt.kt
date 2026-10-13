@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.eastSouthMaze.maze3
+package io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996
 
 import java.math.BigInteger
 

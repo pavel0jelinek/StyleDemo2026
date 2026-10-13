@@ -1,15 +1,15 @@
 package io.github.pavel0jelinek.demo.eastSouthMazeTest
 
-import io.github.pavel0jelinek.demo.eastSouthMaze.Maze
-import io.github.pavel0jelinek.demo.eastSouthMaze.mazeDefinedBy
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze1
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze2a
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze2b
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.bigInteger
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.numberOfSubsets
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.maze3
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.toObstacleRows
-import io.github.pavel0jelinek.demo.eastSouthMaze.mazeOf
+import io.github.pavel0jelinek.demo.oneWayMaze.ObstacleMaze
+import io.github.pavel0jelinek.demo.oneWayMaze.mazeFromPredicate
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze2a
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze2b
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.bigInteger
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.numberOfSubsets
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.maze3
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.toObstacleRows
+import io.github.pavel0jelinek.demo.oneWayMaze.mazeOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.math.BigInteger
@@ -57,7 +57,7 @@ class EastSouthMazeTest {
                 // Each path in an empty maze can be uniquely described by a (sizeX-1) subset of a
                 // (sizeX+sizeY-2) set (let's say, of set 0..<(sizeX+sizeY-2)); these subsets are the indices of steps south.
                 val expected = numberOfSubsets(sizeX + sizeY - 2, sizeX - 1)
-                mazeDefinedBy(sizeX, sizeY) { false }.assertAllReturnSame(expected)
+                mazeFromPredicate(sizeX, sizeY) { false }.assertAllReturnSame(expected)
             }
         }
     }
@@ -66,21 +66,21 @@ class EastSouthMazeTest {
 }
 
 
-private fun Maze.assertAllReturnSame(
+private fun ObstacleMaze.assertAllReturnSame(
     expected: Int,
     description: String? = null,
 ) = assertAllReturnSame(bigInteger(expected), description, includingSlowAlgorithm = true)
 
-private fun Maze.assertAllReturnSame(
+private fun ObstacleMaze.assertAllReturnSame(
     expected: BigInteger? = null,
     description: String? = null,
     includingSlowAlgorithm: Boolean = false
 ) {
     val results: Map<String, BigInteger> = buildMap {
         if (expected != null) put("expected", expected)
-        if (includingSlowAlgorithm) put("by maze1", BigInteger.valueOf(maze1(obstacles)))
-        put("by maze2a", maze2a(obstacles))
-        put("by maze2b", maze2b(this@assertAllReturnSame))
+        if (includingSlowAlgorithm) put("by maze1", BigInteger.valueOf(oneWayMaze1(obstacles)))
+        put("by maze2a", oneWayMaze2a(obstacles))
+        put("by maze2b", oneWayMaze2b(this@assertAllReturnSame))
         put("by maze3(condensed)", maze3(toObstacleRows(sparse = false)).toBigInteger())
         put("by maze3(sparse)", maze3(toObstacleRows(sparse = true)).toBigInteger())
 
@@ -101,6 +101,6 @@ private fun Maze.assertAllReturnSame(
 
 
 fun main() {
-    mazeDefinedBy(20, 20) { false }.assertAllReturnSame()
+    mazeFromPredicate(20, 20) { false }.assertAllReturnSame()
 
 }

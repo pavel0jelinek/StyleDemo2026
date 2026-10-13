@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.eastSouthMaze
+package io.github.pavel0jelinek.demo.oneWayMaze
 
 /**
  * In a rectangular maze (where each tile is a clear tile or obstacle), compute the number of paths from the north-west
@@ -17,7 +17,7 @@ package io.github.pavel0jelinek.demo.eastSouthMaze
  *
  * Returns the number of legal paths from the north-west corner to coordinates [x], [y]. The coordinates are zero-based.
  */
-fun maze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastIndex, y: Int = obstacles.lastIndex): Long =
+fun oneWayMaze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastIndex, y: Int = obstacles.lastIndex): Long =
     when {
         // Outside the maze
         x < 0 || y < 0 -> 0
@@ -26,7 +26,7 @@ fun maze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastIndex, 
         // Starting point
         x == 0 && y == 0 -> 1
         // We can arrive from the west or from the north
-        else -> maze1(obstacles, x - 1, y) + maze1(obstacles, x, y - 1)
+        else -> oneWayMaze1(obstacles, x - 1, y) + oneWayMaze1(obstacles, x, y - 1)
     }
 
 //

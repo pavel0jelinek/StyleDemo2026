@@ -1,9 +1,9 @@
-package io.github.pavel0jelinek.demo.eastSouthMaze
+package io.github.pavel0jelinek.demo.oneWayMaze
 
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.maze3
-import io.github.pavel0jelinek.demo.eastSouthMaze.maze3.toObstacleRows
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.maze3
+import io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996.toObstacleRows
 
-fun mazeOf(printedMaze: String): Maze {
+fun mazeOf(printedMaze: String): ObstacleMaze {
     val obstacles: List<List<Boolean>> = printedMaze.lines().filterNot { it.isBlank() }
         .map { line ->
             line.trim().map { cell: Char ->
@@ -14,10 +14,10 @@ fun mazeOf(printedMaze: String): Maze {
                 }
             }
         }
-    return Maze(obstacles)
+    return ObstacleMaze(obstacles)
 }
 
-fun mazeDefinedBy(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= Maze(
+fun mazeFromPredicate(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= ObstacleMaze(
     List(sizeY){ y->
         List(sizeX) { x ->
             isObstacle(Position(x, y))
@@ -27,11 +27,11 @@ fun mazeDefinedBy(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= Ma
 
 
 
-fun solveAndPrint(description:String, maze: Maze) {
+fun solveAndPrint(description:String, maze: ObstacleMaze) {
     println("\n$description\n${ maze.to2DString()}"+
-        "\nReturned results: maze1: ${maze1(maze.obstacles)}, " +
-                "maze2a: ${maze2a(maze.obstacles)}, " +
-                "maze2b: ${maze2b(maze)}, " +
+        "\nReturned results: maze1: ${oneWayMaze1(maze.obstacles)}, " +
+                "maze2a: ${oneWayMaze2a(maze.obstacles)}, " +
+                "maze2b: ${oneWayMaze2b(maze)}, " +
                 "maze3: ${maze3(maze.toObstacleRows())}"
     )
 }
@@ -47,10 +47,10 @@ fun main() {
         ...
     """.trimIndent()))
 
-    solveAndPrint("Impenetrable wall",mazeDefinedBy(10, 10){
+    solveAndPrint("Impenetrable wall",mazeFromPredicate(10, 10){
         x==5
     })
-    solveAndPrint("Wall with one passage", mazeDefinedBy(10, 10){
+    solveAndPrint("Wall with one passage", mazeFromPredicate(10, 10){
         x==5 && y!=5
     })
 

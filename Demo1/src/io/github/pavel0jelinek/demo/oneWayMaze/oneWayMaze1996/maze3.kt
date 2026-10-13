@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.eastSouthMaze.maze3
+package io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996
 
 /**
  * The competition where I encountered this problem was held in 1995/96, we programmed in Pascal or C.
