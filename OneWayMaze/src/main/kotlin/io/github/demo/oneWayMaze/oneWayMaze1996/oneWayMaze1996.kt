@@ -4,8 +4,8 @@ package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
  * The competition where I encountered this problem was held in 1995/96, we programmed in Pascal or C.
  * There were no such things like BigInteger or MutableMap, if we did not implement them ourselves.
  *
- *  I will use none of my helpers except [MyBigInt]. And I will use a simple interface [ObstacleRow]
- *  (able to return whether a tile contains an obstacle) to
+ *  I will use none of my helpers except [MyBigInt]. And I will use a simple interface [WallRow]
+ *  (able to return whether a tile contains an wall) to
  *  - separate the data representation of the maze from the problem solution
  *  - and to allow for memory-efficient data representations.
  *
@@ -22,7 +22,7 @@ package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
  * */
 private fun Maze.computeRowFromPrevious(y: Int, previousRow:List<MyBigInt>): List<MyBigInt> = buildList {
     for (x in indicesX) {
-        val nPathsToXY = if (isObstacle(x, y)!!) MyBigInt.ZERO
+        val nPathsToXY = if (isWall(x, y)!!) MyBigInt.ZERO
         else
         // Number of paths from the north
             previousRow[x] +

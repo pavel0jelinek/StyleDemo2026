@@ -1,8 +1,8 @@
 package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
 
 /**
- * In a rectangular maze (where each tile is a clear tile or obstacle), compute the number of paths from the north-west
- * corner to the south-east one moving only east and south and avoiding the obstacles.
+ * In a rectangular maze (where each tile is a clear tile or wall), compute the number of paths from the north-west
+ * corner to the south-east one moving only east and south and avoiding the walls.
  *
  * This was part of the republic round of Mathematical Olympian category "P - Programming" which I participated
  * in 1995/96 in my last year of the high school.
@@ -17,16 +17,16 @@ package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
  *
  * Returns the number of legal paths from the north-west corner to coordinates [x], [y]. The coordinates are zero-based.
  */
-fun oneWayMaze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastIndex, y: Int = obstacles.lastIndex): Long =
+fun oneWayMaze1(walls: List<List<Boolean>>, x: Int = walls.first().lastIndex, y: Int = walls.lastIndex): Long =
     when {
         // Outside the maze
         x < 0 || y < 0 -> 0
-        // No legal path enters this obstacle.
-        obstacles[y][x] -> 0
+        // No legal path enters this wall.
+        walls[y][x] -> 0
         // Starting point
         x == 0 && y == 0 -> 1
         // We can arrive from the west or from the north
-        else -> oneWayMaze1(obstacles, x - 1, y) + oneWayMaze1(obstacles, x, y - 1)
+        else -> oneWayMaze1(walls, x - 1, y) + oneWayMaze1(walls, x, y - 1)
     }
 
 //
@@ -39,10 +39,10 @@ fun oneWayMaze1(obstacles: List<List<Boolean>>, x: Int = obstacles.first().lastI
 //    if (x < 0 || y < 0) HugeInt.Zero
 //    else this[y][x] ?: error("Null encountered at position $x-$y")
 //
-//fun eastSouthMazeFast(obstacles: List<List<Boolean>>): HugeInt {
-//    var paths: Array<Array<HugeInt?>> = obstacles.map { mazeRow ->
+//fun eastSouthMazeFast(walls: List<List<Boolean>>): HugeInt {
+//    var paths: Array<Array<HugeInt?>> = walls.map { mazeRow ->
 //        mazeRow.map { mazeCell ->
-//            // Obstacle -> a definite 0, non-obstacle -> we don't know yet
+//            // Wall -> a definite 0, non-wall -> we don't know yet
 //            if (mazeCell) 0 else null
 //        }
 //        paths[0][0] = 1

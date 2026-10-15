@@ -5,7 +5,7 @@ import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.Position
 /**
  * TTTTTT
  *
- * This interface decouples the computation of the legal paths from a representation of obstacle list.
+ * This interface decouples the computation of the legal paths from a representation of wall list.
  */
 interface Maze {
     // sizeX and sizeY are always positive.
@@ -21,7 +21,7 @@ interface Maze {
      * but it would introduce an unhealthy coupling: If we create this interface, we may as well created
      * it well-defined and independent of the problem where we use it.
      */
-    fun isObstacle(x:Int, y:Int): Boolean?
+    fun isWall(x:Int, y:Int): Boolean?
 }
 
 
@@ -31,22 +31,22 @@ class CompressedMaze(
     override val sizeY: Int get() = rows.size
     override val sizeX: Int get() = rows.firstOrNull()?.size ?: 0
 
-    override fun isObstacle(x: Int, y: Int): Boolean? =
+    override fun isWall(x: Int, y: Int): Boolean? =
         if (x!in indicesX || y!in indicesY) null
     else rows[y][x]
 
     companion object {
-        fun of(obstacles: Iterable<Iterable<Boolean>>): CompressedMaze {
-            val compressedRows = obstacles.map { CompressedBooleans(it) }
+        fun of(walls: Iterable<Iterable<Boolean>>): CompressedMaze {
+            val compressedRows = walls.map { CompressedBooleans(it) }
             val sizeX = compressedRows.map { it.size }.distinct().singleOrNull()
                 ?: throw NotImplementedError("Rectangular maze expected.")
             return CompressedMaze(compressedRows)
         }
 
-        fun ofPredicate(sizeX: Int, sizeY: Int, isObstacle: Position.() -> Boolean): CompressedMaze {
+        fun ofPredicate(sizeX: Int, sizeY: Int, isWall: Position.() -> Boolean): CompressedMaze {
             val compressedRows = (0 until sizeY).map { y ->
                 CompressedBooleans((0 until sizeX).map { x ->
-                    Position(x, y).isObstacle()
+                    Position(x, y).isWall()
                 })
             }
             return CompressedMaze(compressedRows)
@@ -55,21 +55,21 @@ class CompressedMaze(
 }
 
 /**
- * An implementation memory-efficient when the obstacles are sparse.
+ * An implementation memory-efficient when the walls are sparse.
  */
-class SparseObstacleRow private constructor(
+class SparseWallRow private constructor(
     // Every list item contains one row.
-    // Every row is an ascending list of x-coordinates of obstacles in this maze row.
+    // Every row is an ascending list of x-coordinates of walls in this maze row.
     private val rows: List<List<Int>>,
     override val sizeX: Int
 ) : Maze {
     override val sizeY: Int get() = rows.size
 
-    constructor(obstacles: Iterable<Iterable<Boolean>>) : this(
-        obstacles.map { row ->
+    constructor(walls: Iterable<Iterable<Boolean>>) : this(
+        walls.map { row ->
             row.withIndex().filter { it.value }.map { it.index }
         },
-        obstacles.firstOrNull()?.count() ?: 0
+        walls.firstOrNull()?.count() ?: 0
     )
 
     init {
@@ -82,11 +82,11 @@ class SparseObstacleRow private constructor(
         }
     }
 
-    override fun isObstacle(x: Int, y: Int): Boolean?
+    override fun isWall(x: Int, y: Int): Boolean?
     = if (x!in indicesX || y!in indicesY) null
     else {
         val position = indicesX.binaryFindLowestWhich { rows[y][x]>= x }
-        // rows[y] contains ascending x-coordinates of obstacles.
+        // rows[y] contains ascending x-coordinates of walls.
         when {
             // No x-coord is >=x
             position == null -> false

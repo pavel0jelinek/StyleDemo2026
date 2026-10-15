@@ -18,8 +18,8 @@ class CompressedBooleans(val size: Int, private val compressed: Array<ULong>) {
         }
 
     companion object {
-        private fun compress(obstacles: Iterable<Boolean>): Array<ULong> {
-            val bits = obstacles.toList()
+        private fun compress(walls: Iterable<Boolean>): Array<ULong> {
+            val bits = walls.toList()
             val words = Array<ULong>((bits.size + 63) / 64) { 0u }
             bits.forEachIndexed { i, b ->
                 if (b) words[i ushr 6] = words[i ushr 6] or (1UL shl (i and 63))

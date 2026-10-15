@@ -6,7 +6,7 @@ import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.Compresse
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.oneWayMaze1996
 
 fun mazeOf(printedMaze: String): BooleanMaze {
-    val obstacles: List<List<Boolean>> = printedMaze.lines().filterNot { it.isBlank() }
+    val walls: List<List<Boolean>> = printedMaze.lines().filterNot { it.isBlank() }
         .map { line ->
             line.trim().map { cell: Char ->
                 when (cell) {
@@ -16,13 +16,13 @@ fun mazeOf(printedMaze: String): BooleanMaze {
                 }
             }
         }
-    return BooleanMaze(obstacles)
+    return BooleanMaze(walls)
 }
 
-fun mazeFromPredicate(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)= BooleanMaze(
+fun mazeFromPredicate(sizeX: Int, sizeY: Int, isWall: Position.()-> Boolean)= BooleanMaze(
     List(sizeY){ y->
         List(sizeX) { x ->
-            isObstacle(Position(x, y))
+            isWall(Position(x, y))
         }
     }
 )
@@ -31,10 +31,10 @@ fun mazeFromPredicate(sizeX: Int, sizeY: Int, isObstacle: Position.()-> Boolean)
 
 fun solveAndPrint(description:String, maze: BooleanMaze) {
     println("\n$description\n${ maze.to2DString()}"+
-        "\nReturned results: maze1: ${oneWayMaze1(maze.obstacles)}, " +
-                "maze2a: ${oneWayMaze2a(maze.obstacles)}, " +
+        "\nReturned results: maze1: ${oneWayMaze1(maze.walls)}, " +
+                "maze2a: ${oneWayMaze2a(maze.walls)}, " +
                 "maze2b: ${oneWayMaze2b(maze)}, " +
-                "maze3: ${CompressedMaze.of(maze.obstacles).oneWayMaze1996()}"
+                "maze3: ${CompressedMaze.of(maze.walls).oneWayMaze1996()}"
     )
 }
 
