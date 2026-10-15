@@ -1,6 +1,5 @@
-package io.github.pavel0jelinek.demo.hanoi
+package io.github.pavel0jelinek.StyleDemo2026.hanoi
 
-import io.github.pavel0jelinek.demo.hanoi.Move
 import kotlin.collections.plus
 
 /**

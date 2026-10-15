@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.oneWayMaze
+package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
 
 import java.math.BigInteger
 
@@ -40,7 +40,7 @@ data class Position(val x: Int, val y: Int) {
 /**
  * Represents a rectangular maze with free tiles and obstacles.
  */
-class ObstacleMaze( // ?? RETHINK NAME
+class BooleanMaze( // ?? RETHINK NAME
     val obstacles: List<List<Boolean>>,
 ) {
     val sizeY = obstacles.size
@@ -50,10 +50,7 @@ class ObstacleMaze( // ?? RETHINK NAME
     val northWestCorner get() = Position(0, 0)
     val southEastCorner get() = Position(sizeX - 1, sizeY - 1)
 
-    /**
-     * Returns true iff the [p]
-     * Null iff
-     */
+
     fun hasObstacleAt(position: Position): Boolean? = obstacles.getOrNull(position.y)?.getOrNull(position.x)
 
     fun to2DString() = obstacles.indices.joinToString(separator = "\n") { y ->
@@ -68,7 +65,7 @@ class ObstacleMaze( // ?? RETHINK NAME
  * with other parameters, it can return the number of paths to any position in the maze.
  */
 fun oneWayMaze2b(
-    maze: ObstacleMaze,
+    maze: BooleanMaze,
     position: Position = maze.southEastCorner,
     cache: MutableMap<Position, BigInteger> = mutableMapOf()
 ): BigInteger = when {

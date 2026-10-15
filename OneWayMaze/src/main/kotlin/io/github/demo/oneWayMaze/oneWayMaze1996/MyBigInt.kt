@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.oneWayMaze.oneWayMaze1996
+package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
 
 import java.math.BigInteger
 
@@ -53,7 +53,6 @@ data class MyBigInt(val digits: List<Digit>) {
         return MyBigInt(result)
     }
 
-    fun toBigInteger() = digits.reversed().fold(BigInteger.ZERO) { acc, digit -> acc * bigInteger(10) +bigInteger(digit.value) }
     companion object {
         val ZERO = MyBigInt(emptyList())
         var ONE = MyBigInt(listOf(Digit(1)))

@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.demo.oneWayMaze
+package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
 
 /**
  * In a rectangular maze (where each tile is a clear tile or obstacle), compute the number of paths from the north-west
