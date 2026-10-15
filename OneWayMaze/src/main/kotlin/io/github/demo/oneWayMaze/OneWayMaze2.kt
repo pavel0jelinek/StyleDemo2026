@@ -11,19 +11,19 @@ import java.math.BigInteger
  * Also, let's use [BigInteger] because the range of [Long] can easily be exceeded.
  */
 fun oneWayMaze2a(
-    obstacles: List<List<Boolean>>,
-    x: Int = obstacles[0].lastIndex,
-    y: Int = obstacles.lastIndex,
+    walls: List<List<Boolean>>,
+    x: Int = walls[0].lastIndex,
+    y: Int = walls.lastIndex,
     cache: MutableMap<Pair<Int, Int>, BigInteger> = mutableMapOf()
 ): BigInteger = when {
-    // An obstacle or out-of-bounds.
-    obstacles.getOrNull(y)?.getOrNull(x) ?: true -> BigInteger.ZERO
+    // An wall or out-of-bounds.
+    walls.getOrNull(y)?.getOrNull(x) ?: true -> BigInteger.ZERO
     // Starting point
     x == 0 && y == 0 -> BigInteger.ONE
     else -> cache.getOrPut(x to y) {
         // We can arrive from the west or from the north
-        oneWayMaze2a(obstacles, x - 1, y, cache) +
-                oneWayMaze2a(obstacles, x, y - 1, cache)
+        oneWayMaze2a(walls, x - 1, y, cache) +
+                oneWayMaze2a(walls, x, y - 1, cache)
     }
 }
 
@@ -38,24 +38,24 @@ data class Position(val x: Int, val y: Int) {
 }
 
 /**
- * Represents a rectangular maze with free tiles and obstacles.
+ * Represents a rectangular maze with free tiles and walls.
  */
 class BooleanMaze( // ?? RETHINK NAME
-    val obstacles: List<List<Boolean>>,
+    val walls: List<List<Boolean>>,
 ) {
-    val sizeY = obstacles.size
-    val sizeX = obstacles.map { it.size }.distinct().singleOrNull()
+    val sizeY = walls.size
+    val sizeX = walls.map { it.size }.distinct().singleOrNull()
         ?: throw IllegalArgumentException("The maze must be rectangular")
 
     val northWestCorner get() = Position(0, 0)
     val southEastCorner get() = Position(sizeX - 1, sizeY - 1)
 
 
-    fun hasObstacleAt(position: Position): Boolean? = obstacles.getOrNull(position.y)?.getOrNull(position.x)
+    fun hasWallAt(position: Position): Boolean? = walls.getOrNull(position.y)?.getOrNull(position.x)
 
-    fun to2DString() = obstacles.indices.joinToString(separator = "\n") { y ->
-        obstacles[y].indices.joinToString (separator = "") { x ->
-            if (obstacles[y][x]) "X" else "."
+    fun to2DString() = walls.indices.joinToString(separator = "\n") { y ->
+        walls[y].indices.joinToString (separator = "") { x ->
+            if (walls[y][x]) "X" else "."
         }
     }
 }
@@ -69,8 +69,8 @@ fun oneWayMaze2b(
     position: Position = maze.southEastCorner,
     cache: MutableMap<Position, BigInteger> = mutableMapOf()
 ): BigInteger = when {
-    // Obstacle or out-of-bounds: No legal path leads here.
-    maze.hasObstacleAt(position) ?: true -> BigInteger.ZERO
+    // Wall or out-of-bounds: No legal path leads here.
+    maze.hasWallAt(position) ?: true -> BigInteger.ZERO
     // Starting point
     position == maze.northWestCorner -> BigInteger.ONE
     // We can arrive from north or from south

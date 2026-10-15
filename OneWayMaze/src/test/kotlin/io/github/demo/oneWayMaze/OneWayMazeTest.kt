@@ -73,14 +73,14 @@
 //) {
 //    val results: Map<String, BigInteger> = buildMap {
 //        if (expected != null) put("expected", expected)
-//        if (includingSlowAlgorithm) put("by maze1", BigInteger.valueOf(oneWayMaze1(obstacles)))
-//        put("by maze2a", oneWayMaze2a(obstacles))
+//        if (includingSlowAlgorithm) put("by maze1", BigInteger.valueOf(oneWayMaze1(walls)))
+//        put("by maze2a", oneWayMaze2a(walls))
 //        put("by maze2b", oneWayMaze2b(this@assertAllReturnSame))
-//        put("by maze3(condensed)", oneWayMaze1996(toObstacleRows(sparse = false)).toBigInteger())
+//        put("by maze3(condensed)", oneWayMaze1996(toWallRows(sparse = false)).toBigInteger())
 //        // It is tempting to add also the following line, but it is not clean, because
 //        // the correct functionality of individual [Maze] implementations should be tested separately.
 //        // This is not the unit test for Comp xxxxx
-//        put("by maze3(sparse)", oneWayMaze1996(toObstacleRows(sparse = true)).toBigInteger())
+//        put("by maze3(sparse)", oneWayMaze1996(toWallRows(sparse = true)).toBigInteger())
 //
 //    }
 //    if (results.values.distinct().size > 1) {
