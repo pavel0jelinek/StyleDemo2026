@@ -15,7 +15,7 @@ else {
 }
 
 
-class CompressedBooleans(val size: Int, private val compressed: Array<ULong>) {
+class CompressedBooleans private constructor(val size: Int, private val compressed: Array<ULong>) {
 
     constructor(bools: Iterable<Boolean>) : this(
         bools.count(),

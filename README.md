@@ -24,5 +24,8 @@ lifecycle from analysis and design through implementation, testing, user trainin
 
 ## Demo of my Code 
 This demo is under construction and now contains:
-* **[Towers of Hanoi](OneWayMaze/src/main/kotlin/io/github/demo/hanoi/Hanoi.kt)** with [unit tests](OneWayMaze/src/main/kotlin/io/github/demo/hanoiTest/HanoiTest.kt).
-* **West-south Maze**: Coming soon.
+* **[Towers of Hanoi](Hanoi/src/main/kotlin/io/github/pavel0jelinek/demo/hanoi/Hanoi.kt)**
+with [unit tests](Hanoi/src/test/kotlin/io/github/pavel0jelinek/demo/hanoi/HanoiTest.kt).
+  
+
+* **One-way Maze**: Coming soon.

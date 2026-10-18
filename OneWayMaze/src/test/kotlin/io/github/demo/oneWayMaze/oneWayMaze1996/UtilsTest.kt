@@ -1,67 +1,79 @@
 package test.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996
 
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.MyBigInt
+import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.CompressedBooleans
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.binaryFindLowestWhich
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import org.junit.jupiter.api.fail
-import java.math.BigInteger
-import java.util.LinkedList
+import kotlin.math.floor
 import kotlin.math.roundToInt
 
 class UtilsTest {
-    //
-//    @Test fun `test MyBigInt`(){
-//        assertEquals(MyBigInt("0"))
-//
-//        val rand: JavaRandom= JavaRandom()
-//        val expected = ArrayDeque<BigInteger>.(10){ bigInteger(rand.nextIntIn(0..1)) }
-//        val actual = expected.map{}
-//    }
-//
-//    private fun testMyBigInt(val nZeros:Int, nShuffle:Int) {}
+
+
     @Test
-    fun `fun binaryFindLowestWhich()`() {
+    fun `Test CompressedBooleans()`() {
+        val rand = JavaRandom(1)
+        for (size in (0..100) + listOf(127, 128, 129, 1000, 10_000, 100_000)) {
+            for (bools in listOf(
+                List(size) { false },
+                List(size) { rand.nextBoolean() },
+                List(size) { true },
+            )) {
+                val cb = CompressedBooleans(bools)
+                assertEquals(size, cb.size, "cb.size")
+                assertEquals(bools, cb.toBools(), "cb.toBools()")
+                for (i in bools.indices) {
+                    assertEquals(bools[i], cb[i], "cb.get($i)")
+                }
+
+                for (outlyingIndex in listOf(Int.MIN_VALUE, -1, size, size + 1, Int.MAX_VALUE)) {
+                    assertNull(
+                        cb[outlyingIndex],
+                        "$size-sized CompressedBooleans should return null at index $outlyingIndex"
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `fun binaryFindLowestWhich() for small ranges`() {
         for (rangeSize in 0..<100) {
             for (lowestSatisfying in
             // including, because...
             0..rangeSize) {
-                testBinarySearch(
+                runAndVerifyBinarySearch(
                     rangeSize = rangeSize,
                     lowestSatisfying = lowestSatisfying
                 )
             }
         }
+    }
 
-        // Now make te
-
-        /**
-         * Must be >1.0  . The larger, the fewer integers are explored before overflowing over [Int.MAX_VALUE] to negative numbers..
-         */
-        val multiplier = 1.1
-        val chanceNothingSatisfies = 1.2
-
+    fun `fun binaryFindLowestWhich() for large ranges`() {
         val rand = JavaRandom(1)
-        var rangeSize: Double = 100.0
-        while (rangeSize < Int.MAX_VALUE) {
+        for (rangeSize in sparseLargeNumbers(1000)) {
             // A random number to test other than zero-based intervals.
             // Non-positive so that we don't collide with [rangeSize] close to [Int.MAX_VALUE].
             val rangeStart = rand.nextIntIn(-200..0)
 
-            testBinarySearch(
-                rangeStart = rangeStart,
-                rangeSize = rangeSize.roundToInt(),
-                lowestSatisfying = rangeStart + rand.nextInt(
-                    (rangeSize * chanceNothingSatisfies).roundToInt(),
-                )
+            // Comm
+            val lowestSatisfying = rangeStart + rand.nextInt(
+                (rangeSize * (1 + 0.2)).roundToInt()
             )
-            rangeSize *= multiplier
+            runAndVerifyBinarySearch(
+                rangeStart = rangeStart,
+                rangeSize = rangeSize,
+                lowestSatisfying = lowestSatisfying
+            )
         }
     }
 }
 
-fun testBinarySearch(rangeStart: Int = 0, rangeSize: Int, lowestSatisfying: Int) {
+private fun runAndVerifyBinarySearch(rangeStart: Int = 0, rangeSize: Int, lowestSatisfying: Int) {
     require(lowestSatisfying >= rangeStart) { "lowestSatisfying < lowestSatisfying" }
     val range = rangeStart..rangeStart + rangeStart
     val actual = range.binaryFindLowestWhich {
@@ -76,6 +88,15 @@ fun testBinarySearch(rangeStart: Int = 0, rangeSize: Int, lowestSatisfying: Int)
 
 }
 
+
+// ?? Needed?
+private fun sparseLargeNumbers(start: Int, multiplier: Double = 1.1): Sequence<Int> = sequence {
+    var x: Double = start.toDouble()
+    while (x < Int.MAX_VALUE) {
+        yield(floor(x).roundToInt())
+        x *= multiplier
+    }
+}
 
 typealias JavaRandom = java.util.Random
 
