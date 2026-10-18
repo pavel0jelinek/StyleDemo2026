@@ -1,7 +1,6 @@
 package test.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996
 
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.MyBigInt
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.bigInteger
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.binaryFindLowestWhich
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
