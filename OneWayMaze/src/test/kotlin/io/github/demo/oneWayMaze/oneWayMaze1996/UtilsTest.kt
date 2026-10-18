@@ -1,11 +1,27 @@
 package test.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996
 
+import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.MyBigInt
+import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.bigInteger
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.binaryFindLowestWhich
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import java.math.BigInteger
+import java.util.LinkedList
 import kotlin.math.roundToInt
 
 class UtilsTest {
+    //
+//    @Test fun `test MyBigInt`(){
+//        assertEquals(MyBigInt("0"))
+//
+//        val rand: JavaRandom= JavaRandom()
+//        val expected = ArrayDeque<BigInteger>.(10){ bigInteger(rand.nextIntIn(0..1)) }
+//        val actual = expected.map{}
+//    }
+//
+//    private fun testMyBigInt(val nZeros:Int, nShuffle:Int) {}
     @Test
     fun `fun binaryFindLowestWhich()`() {
         for (rangeSize in 0..<100) {
