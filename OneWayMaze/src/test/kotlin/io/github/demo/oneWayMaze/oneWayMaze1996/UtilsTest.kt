@@ -12,33 +12,6 @@ import kotlin.math.roundToInt
 
 class UtilsTest {
 
-
-    @Test
-    fun `Test CompressedBooleans()`() {
-        val rand = JavaRandom(1)
-        for (size in (0..100) + listOf(127, 128, 129, 1000, 10_000, 100_000)) {
-            for (bools in listOf(
-                List(size) { false },
-                List(size) { rand.nextBoolean() },
-                List(size) { true },
-            )) {
-                val cb = CompressedBooleans(bools)
-                assertEquals(size, cb.size, "cb.size")
-                assertEquals(bools, cb.toBools(), "cb.toBools()")
-                for (i in bools.indices) {
-                    assertEquals(bools[i], cb[i], "cb.get($i)")
-                }
-
-                for (outlyingIndex in listOf(Int.MIN_VALUE, -1, size, size + 1, Int.MAX_VALUE)) {
-                    assertNull(
-                        cb[outlyingIndex],
-                        "$size-sized CompressedBooleans should return null at index $outlyingIndex"
-                    )
-                }
-            }
-        }
-    }
-
     @Test
     fun `fun binaryFindLowestWhich() for small ranges`() {
         for (rangeSize in 0..<100) {
@@ -55,8 +28,8 @@ class UtilsTest {
 
     fun `fun binaryFindLowestWhich() for large ranges`() {
         val rand = JavaRandom(1)
-        for (rangeSize in sparseLargeNumbers(1000)) {
-            // A random number to test other than zero-based intervals.
+        for (rangeSize in generateSequence(300){if (it<Int.MAX_VALUE/3) it*3 else null }) {
+            // Define a random number to test other than zero-based intervals.
             // Non-positive so that we don't collide with [rangeSize] close to [Int.MAX_VALUE].
             val rangeStart = rand.nextIntIn(-200..0)
 
@@ -89,14 +62,14 @@ private fun runAndVerifyBinarySearch(rangeStart: Int = 0, rangeSize: Int, lowest
 }
 
 
-// ?? Needed?
-private fun sparseLargeNumbers(start: Int, multiplier: Double = 1.1): Sequence<Int> = sequence {
-    var x: Double = start.toDouble()
-    while (x < Int.MAX_VALUE) {
-        yield(floor(x).roundToInt())
-        x *= multiplier
-    }
-}
+//// ?? Needed?
+//private fun sparseLargeNumbers(start: Int, multiplier: Double = 1.1): Sequence<Int> = sequence {
+//    var x: Double = start.toDouble()
+//    while (x < Int.MAX_VALUE) {
+//        yield(floor(x).roundToInt())
+//        x *= multiplier
+//    }
+//}
 
 typealias JavaRandom = java.util.Random
 

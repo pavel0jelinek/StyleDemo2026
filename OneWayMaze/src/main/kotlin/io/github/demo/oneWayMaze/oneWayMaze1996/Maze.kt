@@ -12,8 +12,6 @@ interface Maze {
     val sizeX: Int
     val sizeY:Int
 
-    val indicesX get()= 0..<sizeX
-    val indicesY get() = 0..sizeY
     /**
      * TTT
      *
@@ -22,6 +20,37 @@ interface Maze {
      * it well-defined and independent of the problem where we use it.
      */
     fun isWall(x:Int, y:Int): Boolean?
+}
+
+val Maze.indicesX get()= 0..<sizeX
+val Maze.indicesY get() = 0..sizeY
+
+class CompressedBooleans private constructor(val size: Int, private val compressed: Array<ULong>) {
+
+    constructor(bools: Iterable<Boolean>) : this(
+        bools.count(),
+        compress(bools)
+    )
+
+    operator fun get(index: Int): Boolean? =
+        if (index in 0 until size) (compressed[index ushr 6] and (1UL shl (index and 63))) != 0UL
+        else null
+
+    fun toBools(): List<Boolean> =
+        List(size) { i ->
+            (compressed[i ushr 6] and (1UL shl (i and 63))) != 0UL
+        }
+
+    companion object {
+        private fun compress(walls: Iterable<Boolean>): Array<ULong> {
+            val bits = walls.toList()
+            val words = Array<ULong>((bits.size + 63) / 64) { 0u }
+            bits.forEachIndexed { i, b ->
+                if (b) words[i ushr 6] = words[i ushr 6] or (1UL shl (i and 63))
+            }
+            return words
+        }
+    }
 }
 
 
@@ -57,7 +86,7 @@ class CompressedMaze(
 /**
  * An implementation memory-efficient when the walls are sparse.
  */
-class SparseWallRow private constructor(
+class SparseWallMaze private constructor(
     // Every list item contains one row.
     // Every row is an ascending list of x-coordinates of walls in this maze row.
     private val rows: List<List<Int>>,
@@ -65,14 +94,7 @@ class SparseWallRow private constructor(
 ) : Maze {
     override val sizeY: Int get() = rows.size
 
-    constructor(walls: Iterable<Iterable<Boolean>>) : this(
-        walls.map { row ->
-            row.withIndex().filter { it.value }.map { it.index }
-        },
-        walls.firstOrNull()?.count() ?: 0
-    )
-
-    init {
+     init {
         for (row in rows) {
             row.zipWithNext { a, b -> require(a < b) }
             if (row.isNotEmpty()) {
@@ -95,6 +117,15 @@ class SparseWallRow private constructor(
             // The lowest x-coord >=x is higher than x
             else -> false
         }
+    }
+
+    companion object{
+        fun of(walls: Iterable<Iterable<Boolean>>)  = SparseWallMaze(
+        walls.map { row ->
+            row.withIndex().filter { it.value }.map { it.index }
+        },
+        walls.firstOrNull()?.count() ?: 0
+        )
     }
 }
 
