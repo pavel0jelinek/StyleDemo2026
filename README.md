@@ -19,8 +19,8 @@ lifecycle from analysis and design through implementation, testing, user trainin
 * **Original optimization algorithms** (routing, manufacturing) within 2% of the best-known solutions.
 
 ## Curriculum Vitae
-* General: [English](./CV/CV_en_general.pdf), [Czech](./CV/CV_cz_general.pdf)
-* Emphasizing QA: [English](./CV/CV_en_QA.pdf), [Czech](./CV/CV_cz_QA.pdf)
+* My general CV: [English](./CV/CV_en_general.pdf), [Czech](./CV/CV_cz_general.pdf)
+* CV emphasizing my QA mindset: [English](./CV/CV_en_QA.pdf), [Czech](./CV/CV_cz_QA.pdf)
 
 ## Demo of my Code 
 This demo is under construction and now contains:
