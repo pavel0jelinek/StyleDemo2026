@@ -93,7 +93,7 @@ data class MyBigInt private constructor(val digits: List<Digit>) {
             significance++
         }
 
-        return fromDigits(result)
+        return fromDigits(result.reversed())
     }
 
     companion object {
@@ -102,12 +102,14 @@ data class MyBigInt private constructor(val digits: List<Digit>) {
 
         fun fromDigits(digits: Iterable<Digit>): MyBigInt {
             val trimmed = digits.dropWhile { it == Digit.ZERO }
-            return if (trimmed.isEmpty()) MyBigInt.ZERO else MyBigInt(trimmed)
+            return if (trimmed.isEmpty()) ZERO else MyBigInt(trimmed)
         }
 
-        fun fromString(asString: String): MyBigInt = fromDigits(
-            asString.trim().map { Digit(it) }
-        )
+        fun fromString(asString: String): MyBigInt {
+            val digits = asString.filterNot { it.isWhitespace() }.map{ Digit(it) }
+            require(digits.isNotEmpty()){"String \"$asString\" does not contain digits."}
+            return fromDigits(digits)
+        }
     }
 }
 

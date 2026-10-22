@@ -70,11 +70,3 @@ private fun runAndVerifyBinarySearch(rangeStart: Int = 0, rangeSize: Int, lowest
 //        x *= multiplier
 //    }
 //}
-
-typealias JavaRandom = java.util.Random
-
-fun JavaRandom.nextIntIn(range: ClosedRange<Int>) =
-    if (range.isEmpty()) throw IllegalArgumentException("nextIntIn called for an empty range $range")
-    else nextInt(range.start, range.endInclusive + 1)
-
-fun JavaRandom.nextBool(probability: Double) = nextDouble() < probability
