@@ -26,6 +26,17 @@ lifecycle from analysis and design through implementation, testing, user trainin
 This demo is under construction and now contains:
 * **[Towers of Hanoi](Hanoi/src/main/kotlin/io/github/pavel0jelinek/demo/hanoi/Hanoi.kt)**
 with [unit tests](Hanoi/src/test/kotlin/io/github/pavel0jelinek/demo/hanoi/HanoiTest.kt).
-  
 
 * **One-way Maze**: Coming soon.
+
+## Covariance and Contravariance Illustration
+
+I believe I've found a useful mnemonic for understanding covariance and contravariance:
+
+- Every **producer of carrots** is also a **producer of vegetables**, but **not vice versa.**
+- Every **consumer of vegetables** (one who eats any vegetable given to them) is also an **consumer of carrots**, but **not vice versa.**
+
+```kotlin
+interface Producer<out TCommodity>
+interface Consumer<in TCommodity>
+```
