@@ -2,7 +2,6 @@ package io.github.pavel0jelinek.styleDemo2026.oneWayMaze
 
 import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.CompressedMaze
 import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.oneWayMaze1996
-import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze2
 
 fun mazeOf(printedMaze: String): BooleanMaze {
     val walls: List<List<Boolean>> = printedMaze.lines().filterNot { it.isBlank() }
