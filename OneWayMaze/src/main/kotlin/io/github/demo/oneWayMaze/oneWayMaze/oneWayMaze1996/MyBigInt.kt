@@ -1,6 +1,4 @@
-package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
-
-import java.math.BigInteger
+package io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996
 
 
 /**

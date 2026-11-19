@@ -1,11 +1,5 @@
-package io.github.pavel0jelinek.StyleDemo2026.hanoiTest
+package io.github.pavel0jelinek.styleDemo2026.hanoi
 
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.Move
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.Rod
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.getMovesFunctionally
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.getMovesThroughAppending
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.getMovesWithoutRecursion
-import io.github.pavel0jelinek.StyleDemo2026.hanoi.printMoves
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.io.ByteArrayOutputStream

@@ -1,4 +1,4 @@
-package io.github.pavel0jelinek.StyleDemo2026.hanoi
+package io.github.pavel0jelinek.styleDemo2026.hanoi
 
 import kotlin.collections.plus
 

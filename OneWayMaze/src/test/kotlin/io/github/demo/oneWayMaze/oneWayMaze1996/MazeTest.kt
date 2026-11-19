@@ -1,11 +1,11 @@
 package test.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996
 
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.CompressedBooleans
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.CompressedMaze
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.Maze
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.SparseWallMaze
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.indicesX
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.indicesY
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.maze.CompressedBooleans
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.CompressedMaze
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.Maze
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.SparseWallMaze
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.indicesX
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.indicesY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull

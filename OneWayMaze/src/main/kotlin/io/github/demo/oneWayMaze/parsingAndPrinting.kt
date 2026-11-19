@@ -1,7 +1,8 @@
-package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
+package io.github.pavel0jelinek.styleDemo2026.oneWayMaze
 
-import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.CompressedMaze
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.oneWayMaze1996
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.CompressedMaze
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze1996.oneWayMaze1996
+import io.github.pavel0jelinek.styleDemo2026.oneWayMaze.oneWayMaze2
 
 fun mazeOf(printedMaze: String): BooleanMaze {
     val walls: List<List<Boolean>> = printedMaze.lines().filterNot { it.isBlank() }
@@ -30,9 +31,9 @@ fun mazeFromPredicate(sizeX: Int, sizeY: Int, isWall: Position.()-> Boolean)= Bo
 fun solveAndPrint(description:String, maze: BooleanMaze) {
     println("\n$description\n${ maze.to2DString()}"+
         "\nReturned results: maze1: ${oneWayMaze1(maze.walls)}, " +
-                "maze2a: ${oneWayMaze2a(maze.walls)}, " +
-                "maze2b: ${oneWayMaze2b(maze)}, " +
-                "maze3: ${CompressedMaze.of(maze.walls).oneWayMaze1996()}"
+                "maze3: ${oneWayMaze2(maze.walls)}, " +
+                "maze3: ${oneWayMaze3(maze)}, " +
+                "maze1996: ${CompressedMaze.of(maze.walls).oneWayMaze1996()}"
     )
 }
 
