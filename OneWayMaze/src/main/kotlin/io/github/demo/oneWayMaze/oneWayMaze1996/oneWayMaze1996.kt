@@ -1,5 +1,8 @@
 package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
 
+import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.Maze
+import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.indicesX
+
 /**
  * The competition where I encountered this problem was held in 1995/96, we programmed in Pascal or C.
  * There were no such things like BigInteger or MutableMap, if we did not implement them ourselves.

@@ -1,6 +1,7 @@
-package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996
+package main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996
 
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.Position
+import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.binaryFindLowestWhich
 
 /**
  * TTTTTT

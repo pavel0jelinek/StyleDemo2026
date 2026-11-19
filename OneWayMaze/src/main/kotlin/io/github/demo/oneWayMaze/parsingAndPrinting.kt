@@ -1,8 +1,6 @@
 package io.github.pavel0jelinek.StyleDemo2026.oneWayMaze
 
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.BooleanMaze
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.Position
-import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.CompressedMaze
+import main.kotlin.io.github.demo.oneWayMaze.oneWayMaze1996.CompressedMaze
 import io.github.pavel0jelinek.StyleDemo2026.oneWayMaze.oneWayMaze1996.oneWayMaze1996
 
 fun mazeOf(printedMaze: String): BooleanMaze {
